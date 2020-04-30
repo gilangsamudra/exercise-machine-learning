@@ -1,7 +1,11 @@
 import json
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
-
+from sklearn import svm
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import f1_score
 
 class Sentiment:
     Negative = 'NEGATIVE'
@@ -50,4 +54,44 @@ print(test_y[0])
 # Bag of Words Vectorization
 count_vect = CountVectorizer()
 train_x_vector = count_vect.fit_transform(train_x)
-print(train_x_vector[0].toarray())
+print(train_x[669])
+print(train_x_vector[669].toarray())
+
+test_x_vector = count_vect.transform(test_x)
+
+# Classifier - sklearn classifier
+# Linear SVM
+clf_svm = svm.SVC(kernel='linear')
+clf_svm.fit(train_x_vector, train_y)
+clf_svm.predict(test_x_vector[0])
+
+# Decision Tree
+clf_dec = DecisionTreeClassifier()
+clf_dec.fit(train_x_vector, train_y)
+clf_dec.predict(test_x_vector[0])
+
+# Naive Bayes
+clf_gnb = GaussianNB()
+clf_gnb.fit(train_x_vector.toarray(), train_y)
+clf_gnb.predict(test_x_vector[0].toarray())
+
+# Logistic Regression
+clf_lg = LogisticRegression()
+clf_lg.fit(train_x_vector.toarray(), train_y)
+clf_lg.predict(test_x_vector[0].toarray())
+
+
+# Evaluation
+# Mean Accuracy
+print(clf_svm.score(test_x_vector, test_y))
+print(clf_dec.score(test_x_vector, test_y))
+print(clf_gnb.score(test_x_vector.toarray(), test_y))
+print(clf_lg.score(test_x_vector, test_y))
+
+# F1 Scores
+print(f1_score(test_y, clf_svm.predict(test_x_vector), average=None, labels=[Sentiment.Positive, Sentiment.Neutral, Sentiment.Negative]))
+print(f1_score(test_y, clf_dec.predict(test_x_vector), average=None, labels=[Sentiment.Positive, Sentiment.Neutral, Sentiment.Negative]))
+print(f1_score(test_y, clf_gnb.predict(test_x_vector.toarray()), average=None, labels=[Sentiment.Positive, Sentiment.Neutral, Sentiment.Negative]))
+print(f1_score(test_y, clf_lg.predict(test_x_vector), average=None, labels=[Sentiment.Positive, Sentiment.Neutral, Sentiment.Negative]))
+
+# Istirahat dulu
