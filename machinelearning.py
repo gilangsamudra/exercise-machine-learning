@@ -123,3 +123,10 @@ print(f1_score(test_y, clf_svm.predict(test_x_vector), average=None, labels=[Sen
 print(f1_score(test_y, clf_dec.predict(test_x_vector), average=None, labels=[Sentiment.Positive, Sentiment.Negative]))
 print(f1_score(test_y, clf_gnb.predict(test_x_vector.toarray()), average=None, labels=[Sentiment.Positive, Sentiment.Negative]))
 print(f1_score(test_y, clf_lg.predict(test_x_vector), average=None, labels=[Sentiment.Positive, Sentiment.Negative]))
+
+
+# Test the model
+test_set = ['I thoroughly enjoyed this, 5 stars', 'bad book do not buy', 'horrible waste of time']
+new_test = count_vect.transform(test_set)
+
+clf_svm.predict(new_test)
