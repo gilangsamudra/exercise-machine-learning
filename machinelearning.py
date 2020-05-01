@@ -119,13 +119,7 @@ print(clf_gnb.score(test_x_vector.toarray(), test_y))
 print(clf_lg.score(test_x_vector, test_y))
 
 # F1 Scores
-print(f1_score(test_y, clf_svm.predict(test_x_vector), average=None, labels=[Sentiment.Positive, Sentiment.Neutral, Sentiment.Negative]))
-print(f1_score(test_y, clf_dec.predict(test_x_vector), average=None, labels=[Sentiment.Positive, Sentiment.Neutral, Sentiment.Negative]))
-print(f1_score(test_y, clf_gnb.predict(test_x_vector.toarray()), average=None, labels=[Sentiment.Positive, Sentiment.Neutral, Sentiment.Negative]))
-print(f1_score(test_y, clf_lg.predict(test_x_vector), average=None, labels=[Sentiment.Positive, Sentiment.Neutral, Sentiment.Negative]))
-
-# Improve F1 Score
-print(train_x[0])
-print(train_y[:5])
-print(train_y.count(Sentiment.Negative))
-# Balance the negative and positive data
+print(f1_score(test_y, clf_svm.predict(test_x_vector), average=None, labels=[Sentiment.Positive, Sentiment.Negative]))
+print(f1_score(test_y, clf_dec.predict(test_x_vector), average=None, labels=[Sentiment.Positive, Sentiment.Negative]))
+print(f1_score(test_y, clf_gnb.predict(test_x_vector.toarray()), average=None, labels=[Sentiment.Positive, Sentiment.Negative]))
+print(f1_score(test_y, clf_lg.predict(test_x_vector), average=None, labels=[Sentiment.Positive, Sentiment.Negative]))
