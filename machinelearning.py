@@ -1,12 +1,14 @@
 import json
 import random
+import pickle
 from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn import svm
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score
+from sklearn.model_selection import GridSearchCV
 
 
 class Sentiment:
@@ -82,7 +84,7 @@ print(train_y.count(Sentiment.Negative))
 
 
 # Bag of Words Vectorization
-count_vect = CountVectorizer()
+count_vect = TfidfVectorizer()
 train_x_vector = count_vect.fit_transform(train_x)
 print(train_x[669])
 print(train_x_vector[669].toarray())
@@ -130,3 +132,24 @@ test_set = ['I thoroughly enjoyed this, 5 stars', 'bad book do not buy', 'horrib
 new_test = count_vect.transform(test_set)
 
 clf_svm.predict(new_test)
+
+# tuning the model parameters
+parameters = {'kernel': ('linear', 'rbf'), 'C':(1, 2, 3, 4, 5, 6)}
+
+scv = svm.SVC()
+clf = GridSearchCV(scv, parameters, cv=5)
+clf.fit(train_x_vector, train_y)
+print(clf.best_params_)
+print(f1_score(test_y, clf.predict(test_x_vector), average=None, labels=[Sentiment.Positive, Sentiment.Negative]))
+print(clf.score(test_x_vector, test_y))
+
+# saving model
+with open('D:\Phyton Code\Github Repo\exercise-machine-learning\model.pkl', 'wb') as f:
+    pickle.dump(clf, f)
+
+# load model
+with open('D:\Phyton Code\Github Repo\exercise-machine-learning\model.pkl', 'rb') as f:
+    loaded_clf = pickle.load(f)
+
+print(test_x[0])
+print(loaded_clf.predict(test_x_vector[0]))
